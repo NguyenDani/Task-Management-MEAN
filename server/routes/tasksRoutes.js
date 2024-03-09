@@ -6,7 +6,7 @@ const Task = require('../models/taskModels');
 // Fetch all tasks
 router.get('/', auth, async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.user.id });
+    const tasks = await Task.find({ creator: req.user.id });
     res.json(tasks);
   } catch (err) {
     console.error(err.message);
@@ -19,7 +19,6 @@ router.post('/', auth, async (req, res) => {
   try {
     const { title, description } = req.body;
 
-    // Create a new task object
     const newTask = new Task({
       title,
       description,
@@ -54,19 +53,16 @@ router.get('/:taskID', auth, async (req, res) => {
 // Update a task
 router.put('/:taskID', auth, async (req, res) => {
     try {
-        // Find the task by ID
         let task = await Task.findById(req.params.taskId);
     
         if (!task) {
           return res.status(404).json({ msg: 'Task not found' });
         }
     
-        // Check if the current user owns this task
         if (task.user.toString() !== req.user.id) {
           return res.status(401).json({ msg: 'Not authorized to update this task' });
         }
     
-        // Update task fields
         task = await Task.findByIdAndUpdate(req.params.taskId, { $set: req.body }, { new: true });
     
         res.json(task);
@@ -79,19 +75,16 @@ router.put('/:taskID', auth, async (req, res) => {
 // Delete a task
 router.delete('/:taskID', auth, async (req, res) => {
     try {
-        // Find the task by ID
         let task = await Task.findById(req.params.taskId);
     
         if (!task) {
           return res.status(404).json({ msg: 'Task not found' });
         }
     
-        // Check if the current user owns this task
         if (task.user.toString() !== req.user.id) {
           return res.status(401).json({ msg: 'Not authorized to delete this task' });
         }
     
-        // Delete the task
         await Task.findByIdAndRemove(req.params.taskId);
     
         res.json({ msg: 'Task removed' });
