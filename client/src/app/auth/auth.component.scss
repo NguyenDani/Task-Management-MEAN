@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #513bcf;
+  }
+  
+  .card {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px #000000;
+    color: #ffffff;
+  }
+  
+  .formcolumn {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  button {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #333; /* Dark button background */
+    color: #ffffff; /* Text color */
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #555; /* Darker background on hover */
+  }

@@ -1,4 +1,16 @@
-<p>auth works!</p>
-<app-login></app-login>
-<app-register></app-register>
-
+<div class="container">
+    <div class="card">
+      <h1>{{ isRegistering ? 'Register' : 'Login' }}</h1>
+      <form (ngSubmit)="handleAuth()">
+        <div class="formcolumn">
+          <input type="text" placeholder="Username" [(ngModel)]="username" />
+          <input type="password" placeholder="Password" [(ngModel)]="password" />
+          <button type="submit">{{ isRegistering ? 'Register' : 'Login' }}</button>
+        </div>
+      </form>
+  
+      <button (click)="toggleAuthMode()">{{ isRegistering ? 'Login' : 'Register' }}</button>
+    </div>
+    <ngx-toastr-container></ngx-toastr-container>
+</div>
+  
