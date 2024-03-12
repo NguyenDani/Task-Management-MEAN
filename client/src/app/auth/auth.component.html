@@ -1,16 +1,13 @@
 <div class="container">
     <div class="card">
-      <h1>{{ isRegistering ? 'Register' : 'Login' }}</h1>
-      <form (ngSubmit)="handleAuth()">
-        <div class="formcolumn">
-          <input type="text" placeholder="Username" [(ngModel)]="username" />
-          <input type="password" placeholder="Password" [(ngModel)]="password" />
-          <button type="submit">{{ isRegistering ? 'Register' : 'Login' }}</button>
-        </div>
-      </form>
-  
-      <button (click)="toggleAuthMode()">{{ isRegistering ? 'Login' : 'Register' }}</button>
+        <h1>{{isRegister ? "Register" : "Login"}}</h1>
+        <form>
+            <div class="formcolumn">
+                <input type="text" placeholder="Username" formControlName="uername">
+                <input type="text" placeholder="Password" formControlName="password">
+                <button type="submit" (click)="handleAuth()">{{isRegister ? "Register" : "Login"}}</button>
+            </div>
+        </form>
+        <button (click)="toggleAuthMode()">{{isRegister ? "Login" : "Register"}}</button>
     </div>
-    <ngx-toastr-container></ngx-toastr-container>
 </div>
-  
