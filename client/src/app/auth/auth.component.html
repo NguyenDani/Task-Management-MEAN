@@ -1,11 +1,11 @@
 <div class="container">
     <div class="card">
         <h1>{{isRegister ? "Register" : "Login"}}</h1>
-        <form>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="formcolumn">
-                <input type="text" placeholder="Username" formControlName="uername">
+                <input type="text" placeholder="Username" formControlName="username">
                 <input type="text" placeholder="Password" formControlName="password">
-                <button type="submit" (click)="handleAuth()">{{isRegister ? "Register" : "Login"}}</button>
+                <button type="submit" >{{isRegister ? "Register" : "Login"}}</button>
             </div>
         </form>
         <button (click)="toggleAuthMode()">{{isRegister ? "Login" : "Register"}}</button>
