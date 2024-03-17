@@ -4,10 +4,13 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="formcolumn">
                 <input type="text" placeholder="Username" formControlName="username">
-                <input type="text" placeholder="Password" formControlName="password">
+                <input type="password" placeholder="Password" formControlName="password">
                 <button type="submit" >{{isRegister ? "Register" : "Login"}}</button>
             </div>
         </form>
         <button (click)="toggleAuthMode()">{{isRegister ? "Login" : "Register"}}</button>
+        @if(showError){<p style="color: red;">Invalid Inputs</p>}
+        @else if (showAuthErr) {<p style="color: red;">Invalid Login</p>}
+        @else if (showRegErr) {<p style="color: red;">Try again</p>}
     </div>
 </div>
