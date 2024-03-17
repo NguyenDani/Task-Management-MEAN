@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModels');
-const auth = require('../middleware/auth');
+const authenticateToken = require('../middleware/authMiddleware');
 
 // Registration
 router.post('/register', async (req, res) => {
@@ -47,7 +47,7 @@ router.post('/logout', async (req, res) => {
 });
 
 // Search Users
-router.get('/:userId', auth, async (req, res) => {
+router.get('/:userId', authenticateToken, async (req, res) => {
   try {
     const { username } = req.query;
     const users = await User.find({ username: { $regex: new RegExp(username, 'i') } });

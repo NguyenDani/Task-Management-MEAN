@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const authenticateToken = require('../middleware/authMiddleware');
 const Task = require('../models/taskModels');
-const User = require('../models/userModels');
 
 // Invite another user to collaborate on a task
-router.post('/:taskId/invite/:userId', auth, async (req, res) => {
+router.post('/:taskId/invite/:userId', authenticateToken, async (req, res) => {
   try {
     const task = await Task.findById(req.params.taskId);
 
@@ -28,7 +27,7 @@ router.post('/:taskId/invite/:userId', auth, async (req, res) => {
 });
 
 // Delete a user from collaboration on a task
-router.delete('/:taskId/invite/:userId', auth, async (req, res) => {
+router.delete('/:taskId/invite/:userId', authenticateToken, async (req, res) => {
   try {
     const task = await Task.findById(req.params.taskId);
 

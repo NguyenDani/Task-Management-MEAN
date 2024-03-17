@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const authenticateToken = require('../middleware/authMiddleware');
 const Task = require('../models/taskModels');
 
 // Fetch all tasks
-router.get('/', auth, async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
   try {
     const tasks = await Task.find({ creator: req.user.id });
     res.json(tasks);
@@ -15,7 +15,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // Create a new task
-router.post('/', auth, async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const { title, description } = req.body;
 
@@ -35,7 +35,7 @@ router.post('/', auth, async (req, res) => {
 });
 
 // Select a task
-router.get('/:taskID', auth, async (req, res) => {
+router.get('/:taskID', authenticateToken, async (req, res) => {
     try {
         const task = await Task.findOne({ _id: req.params.taskId, user: req.user.id });
     
@@ -51,7 +51,7 @@ router.get('/:taskID', auth, async (req, res) => {
 });
 
 // Update a task
-router.put('/:taskID', auth, async (req, res) => {
+router.put('/:taskID', authenticateToken, async (req, res) => {
     try {
         let task = await Task.findById(req.params.taskId);
     
@@ -73,7 +73,7 @@ router.put('/:taskID', auth, async (req, res) => {
 });
 
 // Delete a task
-router.delete('/:taskID', auth, async (req, res) => {
+router.delete('/:taskID', authenticateToken, async (req, res) => {
     try {
         let task = await Task.findById(req.params.taskId);
     
