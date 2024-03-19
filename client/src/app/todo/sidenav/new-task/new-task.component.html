@@ -1,13 +1,59 @@
 <div class="dialog-container">
-    <h1>Create new task</h1>
-    <form>
-        <p>Invite collaborators:</p>
-        <input type="text" placeholder="Title">
-        <p>Task title:</p>
-        <input type="text" placeholder="Title">
-        <p>Due date:</p>
-        <p>Input tasks:</p>
-        <input type="text" placeholder="Title">
-    </form>
+    <div class="dialog-content">
+        <h1 style="font-weight: bold;">Create new task</h1>
+        <h2>Title</h2>
+        <mat-form-field>
+            <mat-label>Title: </mat-label>
+            <input matInput placeholder="Project" [formControl]="title" required>
+            @if (title.invalid) {
+              <mat-error>{{getErrorMessage()}}</mat-error>
+            }
+        </mat-form-field>
+        <h2>Due Date</h2>
+        <mat-form-field>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        <h2>Status</h2>
+        <div>
+            <label>Status: </label>
+            <mat-radio-group [formControl]="status">
+              <mat-radio-button value="TO_DO">To Do</mat-radio-button>
+              <mat-radio-button value="IN_PROGRESS">In Progress</mat-radio-button>
+              <mat-radio-button value="Complete">Complete</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+        <h2>Collaborators</h2>
+
+        <h2>Tasks</h2>
+        <section class="example-section">
+            <span class="example-list-section">
+              <mat-checkbox class="example-margin"
+                            [checked]="allComplete"
+                            [color]="task.color"
+                            [indeterminate]="someComplete()"
+                            (change)="setAll($event.checked)">
+                {{task.name}}
+              </mat-checkbox>
+            </span>
+            <span class="example-list-section">
+              <ul>
+                @for (subtask of task.subtasks; track subtask) {
+                  <li>
+                    <mat-checkbox [(ngModel)]="subtask.completed"
+                                  [color]="subtask.color"
+                                  (ngModelChange)="updateAllComplete()">
+                      {{subtask.name}}
+                    </mat-checkbox>
+                  </li>
+                }
+              </ul>
+            </span>
+        </section>
+    </div>
 </div>
 

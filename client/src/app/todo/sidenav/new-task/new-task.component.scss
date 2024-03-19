@@ -1,0 +1,10 @@
+.dialog-container {
+    width: 80vw;
+    height: 90vh;
+    overflow: hidden;
+}
+
+.dialog-content {
+    margin: 30px;
+    height: calc(100% - 60px);
+}
