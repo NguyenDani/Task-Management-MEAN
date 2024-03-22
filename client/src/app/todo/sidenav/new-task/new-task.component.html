@@ -1,6 +1,7 @@
 <div class="dialog-container">
     <div class="dialog-content">
         <h1 style="font-weight: bold;">Create new task</h1>
+        
         <h2>Title</h2>
         <mat-form-field>
             <mat-label>Title: </mat-label>
@@ -9,6 +10,7 @@
               <mat-error>{{getErrorMessage()}}</mat-error>
             }
         </mat-form-field>
+
         <h2>Due Date</h2>
         <mat-form-field>
             <mat-label>Choose a date</mat-label>
@@ -16,7 +18,8 @@
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
+        </mat-form-field>
+
         <h2>Status</h2>
         <div>
             <label>Status: </label>
@@ -25,35 +28,50 @@
               <mat-radio-button value="IN_PROGRESS">In Progress</mat-radio-button>
               <mat-radio-button value="Complete">Complete</mat-radio-button>
             </mat-radio-group>
-          </div>
+        </div>
 
         <h2>Collaborators</h2>
+        <input
+              type="text"
+              placeholder="Search user"
+        />
 
         <h2>Tasks</h2>
-        <section class="example-section">
-            <span class="example-list-section">
-              <mat-checkbox class="example-margin"
-                            [checked]="allComplete"
-                            [color]="task.color"
-                            [indeterminate]="someComplete()"
-                            (change)="setAll($event.checked)">
-                {{task.name}}
-              </mat-checkbox>
-            </span>
-            <span class="example-list-section">
-              <ul>
-                @for (subtask of task.subtasks; track subtask) {
-                  <li>
-                    <mat-checkbox [(ngModel)]="subtask.completed"
-                                  [color]="subtask.color"
-                                  (ngModelChange)="updateAllComplete()">
-                      {{subtask.name}}
-                    </mat-checkbox>
-                  </li>
-                }
-              </ul>
-            </span>
-        </section>
+        <mat-form-field style="width: 100%;" class="example-chip-list">
+            <mat-label>Tasks</mat-label>
+            <mat-chip-grid 
+              class="mat-mdc-chip-set-stacked"
+              style="width: 100%;"
+              #chipGrid 
+              aria-label="Enter tasks"
+              cdkDropList
+              cdkDropListOrientation="vertical"
+              (cdkDropListDropped)="drop($event)">
+              @for (task of tasks; track task) {
+                <mat-checkbox>
+                    <mat-chip-row
+                      (removed)="remove(task)"
+                      [editable]="true"
+                      (edited)="edit(task, $event)"
+                      [aria-description]="'press enter to edit ' + task.name"
+                      cdkDrag>
+                      {{task.name}}
+                      <button matChipRemove [attr.aria-label]="'remove ' + task.name">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip-row>
+                </mat-checkbox>
+              }
+              <input placeholder="New task..."
+                     style="width: 100%;"
+                     [matChipInputFor]="chipGrid"
+                     (matChipInputTokenEnd)="add($event)"/>
+            </mat-chip-grid>
+        </mat-form-field>
+        <div class="dialog-button">
+            <button mat-raised-button>Cancel</button>
+            <button mat-raised-button color="primary">Create</button>
+        </div>
     </div>
 </div>
 

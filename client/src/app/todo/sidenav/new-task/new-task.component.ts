@@ -6,12 +6,16 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter, ThemePalette } from '@angular/material/core';
 import { MatCheckboxModule}  from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipInputEvent, MatChipEditedEvent,MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import {CdkDragDrop, moveItemInArray, CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 
 export interface Task {
   name: string;
   completed: boolean;
   color: ThemePalette;
-  subtasks?: Task[];
+  //subtasks?: Task[];
 }
 
 @Component({
@@ -26,6 +30,11 @@ export interface Task {
     MatRadioModule,
     MatDatepickerModule,
     MatCheckboxModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatIconModule,
+    CdkDrag,
+    CdkDropList
   ],
   templateUrl: './new-task.component.html',
   styleUrl: './new-task.component.scss'
@@ -33,6 +42,7 @@ export interface Task {
 export class NewTaskComponent {
   title = new FormControl('', [Validators.required]);
   status = new FormControl('TO_DO' as FloatLabelType);
+  todo = new FormControl('');
 
   // Title
   getErrorMessage() {
@@ -44,35 +54,56 @@ export class NewTaskComponent {
   }
 
   // Tasks
-  task: Task = {
-    name: 'Indeterminate',
+  
+  tasks: Task[] = [{
+    name: 'Example',
     completed: false,
     color: 'primary',
-    subtasks: [
-      {name: 'Primary', completed: false, color: 'primary'},
-      {name: 'Accent', completed: false, color: 'accent'},
-      {name: 'Warn', completed: false, color: 'warn'},
-    ],
-  };
+  }];
 
-  allComplete: boolean = false;
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
 
-  updateAllComplete() {
-    this.allComplete = this.task.subtasks != null && this.task.subtasks.every(t => t.completed);
-  }
-
-  someComplete(): boolean {
-    if (this.task.subtasks == null) {
-      return false;
+    // Add
+    if (value) {
+      this.tasks.push({
+        name: value,
+        completed: false,
+        color: 'primary'
+      });
     }
-    return this.task.subtasks.filter(t => t.completed).length > 0 && !this.allComplete;
+
+    // Clear the input value
+    event.chipInput!.clear();
   }
 
-  setAll(completed: boolean) {
-    this.allComplete = completed;
-    if (this.task.subtasks == null) {
+  remove(fruit: Task): void {
+    const index = this.tasks.indexOf(fruit);
+
+    if (index >= 0) {
+      this.tasks.splice(index, 1);
+
+    }
+  }
+
+  edit(fruit: Task, event: MatChipEditedEvent) {
+    const value = event.value.trim();
+
+    // Remove if it no longer has a name
+    if (!value) {
+      this.remove(fruit);
       return;
     }
-    this.task.subtasks.forEach(t => (t.completed = completed));
+
+    // Edit
+    const index = this.tasks.indexOf(fruit);
+    if (index >= 0) {
+      this.tasks[index].name = value;
+    }
   }
+
+  drop(event: CdkDragDrop<Task[]>) {
+    moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
+  }
+
 }

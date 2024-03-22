@@ -1,10 +1,26 @@
 .dialog-container {
     width: 80vw;
     height: 90vh;
-    overflow: hidden;
+    //overflow: hidden;
 }
 
 .dialog-content {
     margin: 30px;
-    height: calc(100% - 60px);
+    height: calc(100% - 120px);
 }
+
+ul {
+    list-style-type: none;
+}
+
+.dialog-button {
+    text-align: right;
+}
+
+.dialog-button button {
+    margin: 10px
+}
+
+.mat-mdc-chip-set {
+    max-width: 200px;
+  }
