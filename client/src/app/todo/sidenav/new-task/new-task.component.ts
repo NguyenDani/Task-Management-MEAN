@@ -54,17 +54,32 @@ export class NewTaskComponent {
   }
 
   // Tasks
-  
   tasks: Task[] = [{
-    name: 'Example',
+    name: 'Double click me!',
+    completed: false,
+    color: 'primary',
+  }, {
+    name: 'Drag me!',
+    completed: false,
+    color: 'primary',
+  }, {
+    name: 'Testing how long I can get this string to go and to test if the chip will push the upper chip to the previous row',
     completed: false,
     color: 'primary',
   }];
 
+
+  removeTask(task: Task) {
+    const index = this.tasks.indexOf(task);
+    if (index >= 0) {
+      this.tasks.splice(index, 1);
+    }
+  }
+
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add
+    // Add our task
     if (value) {
       this.tasks.push({
         name: value,
@@ -77,26 +92,17 @@ export class NewTaskComponent {
     event.chipInput!.clear();
   }
 
-  remove(fruit: Task): void {
-    const index = this.tasks.indexOf(fruit);
-
-    if (index >= 0) {
-      this.tasks.splice(index, 1);
-
-    }
-  }
-
-  edit(fruit: Task, event: MatChipEditedEvent) {
+  edit(task: Task, event: MatChipEditedEvent) {
     const value = event.value.trim();
 
-    // Remove if it no longer has a name
+    // Remove task if it no longer has a name
     if (!value) {
-      this.remove(fruit);
+      this.removeTask(task);
       return;
     }
 
-    // Edit
-    const index = this.tasks.indexOf(fruit);
+    // Edit existing task
+    const index = this.tasks.indexOf(task);
     if (index >= 0) {
       this.tasks[index].name = value;
     }

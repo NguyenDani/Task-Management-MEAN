@@ -37,37 +37,37 @@
         />
 
         <h2>Tasks</h2>
-        <mat-form-field style="width: 100%;" class="example-chip-list">
-            <mat-label>Tasks</mat-label>
-            <mat-chip-grid 
-              class="mat-mdc-chip-set-stacked"
-              style="width: 100%;"
-              #chipGrid 
-              aria-label="Enter tasks"
-              cdkDropList
-              cdkDropListOrientation="vertical"
-              (cdkDropListDropped)="drop($event)">
-              @for (task of tasks; track task) {
-                <mat-checkbox>
-                    <mat-chip-row
-                      (removed)="remove(task)"
-                      [editable]="true"
-                      (edited)="edit(task, $event)"
-                      [aria-description]="'press enter to edit ' + task.name"
-                      cdkDrag>
-                      {{task.name}}
-                      <button matChipRemove [attr.aria-label]="'remove ' + task.name">
-                        <mat-icon>cancel</mat-icon>
-                      </button>
-                    </mat-chip-row>
-                </mat-checkbox>
-              }
-              <input placeholder="New task..."
-                     style="width: 100%;"
-                     [matChipInputFor]="chipGrid"
-                     (matChipInputTokenEnd)="add($event)"/>
-            </mat-chip-grid>
+        <mat-form-field style="width: 100%;">
+          <mat-label>Tasks</mat-label>
+          <mat-chip-grid 
+            #chipGrid 
+            class="mat-mdc-chip-set-stacked"
+            aria-label="Enter Tasks" 
+            cdkDropList
+            cdkDropListOrientation="vertical"
+            (cdkDropListDropped)="drop($event)">
+            @for (task of tasks; track task) {
+              <mat-checkbox>
+                <mat-chip-row 
+                (removed)="removeTask(task)"
+                [editable]="true"
+                (edited)="edit(task, $event)"
+                [aria-description]="'press enter to edit ' + task.name"
+                cdkDrag>
+                  {{task.name}}
+                  <button matChipRemove aria-label="'remove ' + task">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              </mat-checkbox>
+              <div style="width: 100%;"></div>
+            }
+          </mat-chip-grid>
+          <input placeholder="New task..."
+                  [matChipInputFor]="chipGrid"
+                  (matChipInputTokenEnd)="add($event)"/>
         </mat-form-field>
+        
         <div class="dialog-button">
             <button mat-raised-button>Cancel</button>
             <button mat-raised-button color="primary">Create</button>
