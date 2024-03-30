@@ -14,7 +14,7 @@
         <h2>Due Date</h2>
         <mat-form-field>
             <mat-label>Choose a date</mat-label>
-            <input matInput [matDatepicker]="picker">
+            <input matInput [matDatepicker]="picker"[formControl]="dueDate">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
@@ -38,7 +38,7 @@
 
         <h2>Tasks</h2>
         <mat-form-field style="width: 100%;">
-          <mat-label>Tasks</mat-label>
+          <mat-label>To Do</mat-label>
           <mat-chip-grid 
             #chipGrid 
             class="mat-mdc-chip-set-stacked"
@@ -46,16 +46,16 @@
             cdkDropList
             cdkDropListOrientation="vertical"
             (cdkDropListDropped)="drop($event)">
-            @for (task of tasks; track task) {
+            @for (todo of todos; track todo) {
               <mat-checkbox>
                 <mat-chip-row 
-                (removed)="removeTask(task)"
+                (removed)="removeTodo(todo)"
                 [editable]="true"
-                (edited)="edit(task, $event)"
-                [aria-description]="'press enter to edit ' + task.name"
+                (edited)="edit(todo, $event)"
+                [aria-description]="'press enter to edit ' + todo.name"
                 cdkDrag>
-                  {{task.name}}
-                  <button matChipRemove aria-label="'remove ' + task">
+                  {{todo.name}}
+                  <button matChipRemove aria-label="'remove ' + todo">
                     <mat-icon>cancel</mat-icon>
                   </button>
                 </mat-chip-row>
@@ -63,14 +63,14 @@
               <div style="width: 100%;"></div>
             }
           </mat-chip-grid>
-          <input placeholder="New task..."
+          <input placeholder="New to do..."
                   [matChipInputFor]="chipGrid"
                   (matChipInputTokenEnd)="add($event)"/>
         </mat-form-field>
         
         <div class="dialog-button">
-            <button mat-raised-button>Cancel</button>
-            <button mat-raised-button color="primary">Create</button>
+            <button mat-raised-button (click)="closeDialog()">Cancel</button>
+            <button mat-raised-button color="primary" (click)="createTask">Create</button>
         </div>
     </div>
 </div>

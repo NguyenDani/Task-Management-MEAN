@@ -23,8 +23,6 @@ export class SidenavComponent {
   openCreateTask() {
     const dialogRef = this.dialog.open(NewTaskComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    
   }
 }
