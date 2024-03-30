@@ -17,12 +17,21 @@ router.get('/', authenticateToken, async (req, res) => {
 // Create a new task
 router.post('/', authenticateToken, async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { 
+      title,
+      dueDate,
+      status,
+      collaborators,
+      todo
+    } = req.body;
 
     const newTask = new Task({
       title,
-      description,
-      creator: req.user.id 
+      creator: req.user.id ,
+      dueDate,
+      status,
+      collaborators,
+      todo
     });
 
     const task = await newTask.save();

@@ -1,14 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const todoSchema = new Schema({
+  name: { type: String, required: true },
+  completed: { type: Boolean, default: false }
+})
+
 const taskSchema = new Schema({
   title: { type: String, required: true },
-  description: String, // Make description into String Array w/ status box per element
-  status: { type: String, enum: ['TODO', 'IN_PROGRESS', 'COMPLETED'], default: 'TODO'},
-  // Implement creation date
-  dueDate: Date, // Default to Undetermined
   creator: { type:Schema.Types.ObjectId, ref: 'User', required: true},
-  collaboratores: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  // Implement creation date
+  dueDate: Date,
+  status: { type: String, enum: ['TO_DO', 'IN_PROGRESS', 'COMPLETED'], default: 'TO_DO'},
+  collaboratores: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  todo: [todoSchema]
 });
 
 const Task = mongoose.model('Task', taskSchema);
