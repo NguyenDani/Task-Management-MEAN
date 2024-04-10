@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import axios from 'axios';
 import { FormBuilder, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 
@@ -20,7 +21,11 @@ export class AuthComponent {
     password: new FormControl(''),
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder, 
+    private router: Router
+  ) {}
+
 
   ngOnInit(): void {
     this.form = this.formBuilder.group(
@@ -55,7 +60,7 @@ export class AuthComponent {
         { username, password});
         const token = req.data.token;
         localStorage.setItem('token', token);
-        // After successful login redirect to dashboard
+        this.router.navigate(['/dashboard']);
       } catch (error) {
         this.showAuthErr = true;
       }
