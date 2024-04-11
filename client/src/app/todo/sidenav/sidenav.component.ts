@@ -4,6 +4,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { NewTaskComponent } from './new-task/new-task.component';
+import { AccountComponent } from './account/account.component';
 
 @Component({
   selector: 'app-sidenav',
@@ -12,7 +13,8 @@ import { NewTaskComponent } from './new-task/new-task.component';
     MatDividerModule,
     MatListModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    AccountComponent
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
