@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -9,11 +9,8 @@ import { Router } from '@angular/router';
   styleUrl: './account.component.scss'
 })
 export class AccountComponent {
-
-  constructor( private router: Router ) {}
-
+  constructor(private authService: AuthService) { }
   logoutButton(){
-    localStorage.removeItem('token');
-    this.router.navigate(['/']);
+    this.authService.logout();
   }
 }
