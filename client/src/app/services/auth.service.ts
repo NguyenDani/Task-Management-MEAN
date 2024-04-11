@@ -8,7 +8,10 @@ export class AuthService {
   constructor(private router: Router) { }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+    if (typeof window !== 'undefined') {
+      return !!localStorage.getItem('token');
+    }
+    return false;
   }
 
   logout() {
